@@ -1,0 +1,743 @@
+/* ========================== */
+/* Variáveis Globais (Root)   */
+/* ========================== */
+:root {
+    /* Fontes */
+    --font-primary: 'Inter', sans-serif;
+    --font-code: 'Fira Code', monospace;
+
+    /* Cores Primárias */
+    --primary-100: #E6F0FF;
+    --primary-500: #0052CC;
+    --primary-700: #003380;
+    /* Cores Secundárias */
+    --secondary-100: #E0F7F3;
+    --secondary-500: #00A884;
+    --secondary-700: #007A60;
+    /* Cores Neutras */
+    --neutral-0: #FFFFFF;
+    --neutral-100: #F5F5F5;
+    --neutral-300: #E6E6E6;
+    --neutral-500: #CCCCCC;
+    --neutral-700: #4D4D4D;
+    --neutral-900: #1A1A1A;
+    /* Cores de Feedback */
+    --success-500: #28A745;
+    --warning-500: #FFC107;
+    --error-500: #DC3545;
+    --info-500: #17A2B8;
+    --heart-color: #DC3545; /* Cor para coração favorito */
+
+    /* Base de Tamanho (para REM) */
+    font-size: 16px;
+
+    /* Sombras (Exemplo) */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+
+     /* Border Radius (Exemplo) */
+    --border-radius-sm: 0.25rem; /* 4px */
+    --border-radius-md: 0.5rem;  /* 8px */
+    --border-radius-lg: 0.75rem; /* 12px */
+
+    /* Transição padrão */
+    --transition-speed: 0.3s;
+
+    /* Variáveis RGB para rgba() - Fallback inicial (será sobrescrito por JS) */
+    --neutral-0-rgb: 255, 255, 255;
+    --secondary-500-rgb: 0, 168, 132;
+}
+
+/* ========================== */
+/* Tema Escuro (Dark Mode)    */
+/* ========================== */
+html.dark-mode {
+    /* Inverter cores neutras */
+    --neutral-0: #1a202c;  /* Dark background */
+    --neutral-100: #2d3748; /* Slightly lighter dark */
+    --neutral-300: #4a5568; /* Darker borders */
+    --neutral-500: #718096; /* Lighter gray text */
+    --neutral-700: #a0aec0; /* Even lighter gray text */
+    --neutral-900: #f7fafc;  /* Light text */
+
+    /* Ajustar cores primárias/secundárias para melhor contraste no escuro (opcional) */
+    --primary-100: #2a4365; /* Darker primary bg */
+    --primary-500: #63b3ed; /* Lighter primary */
+    --primary-700: #90cdf4; /* Even lighter primary hover */
+
+    --secondary-100: #2c5d54; /* Darker secondary bg */
+    --secondary-500: #4fd1c5; /* Lighter secondary */
+    --secondary-700: #81e6d9; /* Even lighter secondary hover */
+
+    --shadow-md: 0 4px 6px -1px rgba(255, 255, 255, 0.06), 0 2px 4px -1px rgba(255, 255, 255, 0.04);
+    --shadow-lg: 0 10px 15px -3px rgba(255, 255, 255, 0.06), 0 4px 6px -2px rgba(255, 255, 255, 0.04);
+
+    /* Cor do placeholder de imagem no dark mode */
+    .placeholder-image {
+        background-color: var(--neutral-300) !important; /* Mantém o placeholder visível */
+    }
+
+    /* Atualiza variáveis RGB */
+    --neutral-0-rgb: 26, 32, 44;
+    --secondary-500-rgb: 79, 209, 197;
+}
+
+
+/* ========================== */
+/* Reset Básico e Estilos Base */
+/* ========================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth; /* Habilita scroll suave via CSS */
+    scroll-padding-top: 80px; /* Ajusta o ponto de parada do scroll suave (altura do header) */
+}
+
+body {
+    font-family: var(--font-primary);
+    color: var(--neutral-900);
+    background-color: var(--neutral-0); /* Fundo usa variável */
+    line-height: 1.6; /* Aumentar um pouco */
+    -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+    transition: background-color var(--transition-speed) ease, color var(--transition-speed) ease; /* Transição suave de tema */
+    overflow-x: hidden; /* Previne scroll horizontal causado por animações */
+}
+
+body.no-scroll {
+    overflow: hidden; /* Impede scroll quando menu mobile está aberto */
+}
+
+.container {
+    max-width: 1200px; /* Um pouco maior para layout de página */
+    margin: 0 auto;
+    padding: 0 1.5rem; /* Mais padding lateral */
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-color: var(--neutral-300);
+    margin: 3rem 0; /* Usar variável */
+}
+
+img { /* Imagens responsivas por padrão */
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* ========================== */
+/* Estilos de Tipografia      */
+/* ========================== */
+h1, h2, h3, h4, h5, h6 { /* Adicionar h5, h6 */
+    margin-bottom: 1rem;
+    line-height: 1.3;
+    font-family: var(--font-primary);
+    font-weight: 600; /* SemiBold por padrão para títulos */
+    color: var(--neutral-900); /* Usar variável */
+}
+
+h1 { font-size: 2.25rem; font-weight: 700; } /* 36px */
+h2 { font-size: 1.75rem; } /* 28px */
+h3 { font-size: 1.375rem; } /* 22px */
+h4 { font-size: 1.125rem; font-weight: 500; } /* 18px */
+h5 { font-size: 1rem; } /* 16px */
+h6 { font-size: 0.875rem; } /* 14px */
+
+p { font-size: 1rem; font-weight: 400; margin-bottom: 1rem; color: var(--neutral-700); /* Usar variável */ }
+p.lead { font-size: 1.125rem; line-height: 1.6; color: var(--neutral-700); margin-bottom: 1.5rem; }
+small, .small { font-size: 0.875rem; font-weight: 400; line-height: 1.4; color: var(--neutral-500); /* Mais claro para metadados */ }
+
+a { color: var(--primary-500); /* Usar variável */ text-decoration: none; font-weight: 500; transition: color 0.2s ease; }
+a:hover, a:focus { color: var(--primary-700); /* Usar variável */ text-decoration: underline; }
+
+code { font-family: var(--font-code); font-size: 0.875rem; background-color: var(--neutral-100); padding: 0.2em 0.4em; border-radius: var(--border-radius-sm); color: var(--neutral-700); }
+pre { font-family: var(--font-code); font-size: 0.875rem; line-height: 1.5; background-color: var(--neutral-100); border: 1px solid var(--neutral-300); border-radius: var(--border-radius-md); padding: 1rem; overflow-x: auto; margin-bottom: 1rem; }
+pre code { padding: 0; background-color: transparent; border-radius: 0; color: inherit; }
+
+/* Helpers */
+.text-center { text-align: center; }
+.text-gradient {
+    background: linear-gradient(to right, var(--primary-500), var(--secondary-500));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.highlight {
+    background-color: rgba(var(--secondary-500-rgb), 0.2); /* Usa cor secundária com alpha */
+    padding: 0.1em 0.3em;
+    border-radius: var(--border-radius-sm);
+}
+
+
+/* ========================== */
+/* Componente: Botões         */
+/* ========================== */
+.btn {
+    display: inline-block;
+    font-family: var(--font-primary);
+    font-weight: 500; /* Medium */
+    font-size: 1rem; /* 16px */
+    padding: 0.75rem 1.5rem; /* Mais padding */
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
+    line-height: 1.2; /* Ajustar altura da linha */
+}
+.btn:active {
+    transform: scale(0.98); /* Efeito de clique */
+}
+
+.btn-primary {
+    background-color: var(--primary-500);
+    color: var(--neutral-0);
+    border-color: var(--primary-500);
+}
+.btn-primary:hover, .btn-primary:focus {
+    background-color: var(--primary-700);
+    border-color: var(--primary-700);
+    color: var(--neutral-0);
+    text-decoration: none;
+}
+
+.btn-secondary {
+    background-color: var(--secondary-500);
+    color: var(--neutral-0);
+    border-color: var(--secondary-500);
+}
+.btn-secondary:hover, .btn-secondary:focus {
+    background-color: var(--secondary-700);
+    border-color: var(--secondary-700);
+    color: var(--neutral-0);
+    text-decoration: none;
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    color: var(--primary-500);
+    border-color: var(--primary-500);
+}
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+    background-color: var(--primary-100);
+    color: var(--primary-700);
+    border-color: var(--primary-500); /* Manter a borda */
+    text-decoration: none;
+}
+
+/* Botão Claro (para fundos escuros) */
+.btn-light {
+    background-color: var(--neutral-0);
+    color: var(--primary-700); /* Cor primária escura no texto */
+    border-color: var(--neutral-0);
+}
+.btn-light:hover, .btn-light:focus {
+    background-color: var(--neutral-100); /* Fica um pouco cinza */
+    border-color: var(--neutral-100);
+    color: var(--primary-700);
+    text-decoration: none;
+}
+html.dark-mode .btn-light { /* Ajuste no dark mode */
+    background-color: var(--neutral-0); /* Usa branco do dark */
+    color: var(--primary-700); /* Usa azul claro do dark */
+    border-color: var(--neutral-0);
+}
+html.dark-mode .btn-light:hover, html.dark-mode .btn-light:focus {
+    background-color: var(--neutral-100); /* Usa cinza claro do dark */
+    border-color: var(--neutral-100);
+    color: var(--primary-700); /* Mantém azul claro */
+}
+
+/* Tamanhos de Botão */
+.btn-sm {
+    font-size: 0.875rem; /* 14px */
+    padding: 0.5rem 1rem;
+}
+.btn-lg {
+    font-size: 1.125rem; /* 18px */
+    padding: 1rem 2rem;
+}
+.btn .icon { margin-left: 0.5rem; vertical-align: text-bottom; /* Alinha melhor com texto */ }
+
+
+/* ========================== */
+/* Estilos do Cabeçalho       */
+/* ========================== */
+.site-header {
+    background-color: rgba(var(--neutral-0-rgb), 0.85); /* Fundo semi-transparente */
+    backdrop-filter: blur(10px); /* Efeito de vidro fosco */
+    -webkit-backdrop-filter: blur(10px);
+    padding: 0.75rem 0; /* Reduzir padding */
+    border-bottom: 1px solid transparent; /* Borda inicial transparente */
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Alto z-index */
+    transition: background-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-color var(--transition-speed) ease, padding var(--transition-speed) ease;
+}
+
+/* Estilo do Header quando 'sticky' */
+.site-header.sticky {
+    background-color: rgba(var(--neutral-0-rgb), 0.95); /* Mais opaco ao rolar */
+    box-shadow: var(--shadow-md);
+    border-bottom-color: var(--neutral-100);
+    padding: 0.5rem 0; /* Ainda menor ao rolar */
+}
+
+.header-container { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--neutral-900); text-decoration: none; transition: color var(--transition-speed) ease; }
+.logo:hover { color: var(--primary-500); text-decoration: none; }
+
+.main-nav ul { list-style: none; display: flex; gap: 1.5rem; }
+.main-nav a { font-weight: 500; color: var(--neutral-700); text-decoration: none; transition: color var(--transition-speed) ease; position: relative; padding: 0.25rem 0; }
+.main-nav a::after { /* Sublinhado sutil no hover */
+    content: '';
+    position: absolute;
+    bottom: -2px; /* Pouco abaixo */
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: var(--primary-500);
+    transition: width var(--transition-speed) ease;
+}
+.main-nav a:hover::after, .main-nav a:focus::after, .main-nav a.active::after { width: 100%; }
+.main-nav a:hover, .main-nav a:focus, .main-nav a.active { color: var(--primary-500); text-decoration: none; }
+
+.header-actions { display: flex; align-items: center; gap: 1rem; }
+.auth-buttons { display: flex; gap: 0.5rem; }
+
+/* Botão Dark Mode */
+.dark-mode-toggle {
+    background: none;
+    border: 1px solid transparent; /* Borda para foco */
+    color: var(--neutral-700);
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-speed) ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+}
+.dark-mode-toggle:hover, .dark-mode-toggle:focus-visible { /* Melhorar foco */
+    color: var(--primary-500);
+    background-color: var(--neutral-100);
+    outline: none;
+    border-color: var(--primary-500); /* Borda no foco */
+}
+.dark-mode-toggle .icon { transition: transform var(--transition-speed) ease; }
+/* Esconder o ícone não ativo */
+html:not(.dark-mode) .dark-mode-toggle [data-feather="sun"] { display: none; }
+html.dark-mode .dark-mode-toggle [data-feather="moon"] { display: none; }
+
+/* Botão e Menu Mobile */
+.mobile-nav-toggle {
+    display: none;
+    background: none; border: none; cursor: pointer; padding: 0.5rem;
+    color: var(--neutral-700); z-index: 1100; /* Acima do menu */
+    position: relative; /* Para posicionar icon X */
+    width: 36px; height: 36px; /* Tamanho fixo */
+}
+.mobile-nav-toggle .icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); transition: opacity 0.2s ease; }
+.mobile-nav-toggle .close-icon { opacity: 0; }
+.mobile-nav-toggle.active .menu-icon { opacity: 0; }
+.mobile-nav-toggle.active .close-icon { opacity: 1; }
+
+
+/* ========================== */
+/* Hero Section               */
+/* ========================== */
+.hero-section {
+    padding: 6rem 0;
+    margin-bottom: 4rem;
+    position: relative; /* Para posicionar particles */
+    overflow: hidden; /* Para conter particles */
+    background: linear-gradient(135deg, var(--primary-100), var(--secondary-100));
+}
+
+/* Estilos para Particles.js */
+#particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1; /* Atrás do conteúdo */
+}
+
+.hero-content {
+    position: relative; /* Para ficar acima das particles */
+    z-index: 2;
+}
+
+.hero-section h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--neutral-900); /* Garante cor no light mode */
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-section .lead {
+    font-size: 1.25rem;
+    color: var(--neutral-700);
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 2.5rem;
+}
+
+.hero-section .btn { margin: 0.5rem; }
+
+
+/* ========================== */
+/* Cursos                     */
+/* ========================== */
+.featured-courses { padding: 4rem 0; background-color: var(--neutral-100); } /* Fundo diferente */
+
+.featured-courses h2 { text-align: center; margin-bottom: 3rem; }
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.course-card {
+    background-color: var(--neutral-0);
+    border: 1px solid var(--neutral-100); /* Borda mais sutil */
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative; /* Para posicionar botão favoritar */
+}
+.course-card:hover {
+    transform: translateY(-8px) scale(1.02); /* Efeito mais pronunciado */
+    box-shadow: var(--shadow-lg);
+}
+
+.card-image.placeholder-image {
+    height: 200px; /* Maior */
+    background-color: var(--neutral-300); /* Cor de placeholder */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--neutral-500);
+}
+
+.card-content { padding: 1.5rem; flex-grow: 1; display: flex; flex-direction: column; }
+.card-content h4 { margin-bottom: 0.5rem; line-height: 1.4; color: var(--neutral-900); flex-grow: 1; font-weight: 600; }
+.instructor { font-size: 0.875rem; color: var(--neutral-700); margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.25rem; }
+.instructor .icon { stroke-width: 2.5; }
+.rating { margin-bottom: 1rem; color: var(--warning-500); display: flex; align-items: center; gap: 0.1rem; }
+.rating .icon { stroke: var(--warning-500); stroke-width: 1.5; /* Estrelas mais finas */ }
+.rating .icon.filled { fill: var(--warning-500); }
+.rating .icon.half-filled { /* Melhorar visual de meia estrela */
+   position: relative;
+   fill: var(--warning-500);
+}
+.rating .icon.half-filled::before { /* Usa pseudo-elemento para cobrir metade */
+  content: '';
+  position: absolute;
+  top: 0; left: 50%; width: 50%; height: 100%;
+  background: var(--neutral-0); /* Cobre com a cor de fundo do card */
+}
+.rating .small { color: var(--neutral-500); margin-left: 0.5rem; font-size: 0.75rem; /* Menor */ }
+
+.price { font-size: 1.25rem; /* Maior */ font-weight: 700; color: var(--neutral-900); margin-bottom: 1.25rem; }
+.old-price { font-size: 0.875rem; color: var(--neutral-500); text-decoration: line-through; margin-left: 0.5rem; font-weight: 400; }
+
+.card-content .btn { margin-top: auto; width: 100%; }
+
+/* Botão Favoritar */
+.favorite-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: rgba(255, 255, 255, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--neutral-500);
+    transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+    z-index: 5; /* Acima da imagem */
+}
+.favorite-btn:hover {
+    background-color: rgba(255, 255, 255, 0.9);
+    color: var(--heart-color);
+    transform: scale(1.1);
+}
+.favorite-btn.active { /* Quando favoritado */
+    color: var(--heart-color);
+}
+.favorite-btn.active .icon {
+    fill: var(--heart-color); /* Preenche o coração */
+}
+
+
+/* ========================== */
+/* Por que EduMais?           */
+/* ========================== */
+.why-us-section { padding: 5rem 0; /* Mais padding */ } /* Sem fundo diferente */
+.why-us-section h2 { text-align: center; margin-bottom: 4rem; /* Mais margem */ }
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Colunas um pouco maiores */
+    gap: 3rem; /* Mais espaço */
+    text-align: center;
+}
+
+.feature-item .feature-icon-wrapper { /* Círculo em volta do ícone */
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: var(--primary-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+    transition: background-color var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+.feature-item:hover .feature-icon-wrapper {
+    background-color: var(--primary-500);
+    transform: scale(1.1);
+}
+
+.feature-item .icon { stroke-width: 1.5; color: var(--primary-500); transition: color var(--transition-speed) ease; }
+.feature-item:hover .icon { color: var(--neutral-0); /* Ícone branco no hover */ }
+
+.feature-item h4 { margin-bottom: 0.5rem; color: var(--neutral-900); font-weight: 600; }
+.feature-item p.small { color: var(--neutral-700); line-height: 1.5; }
+
+
+/* ========================== */
+/* CTA Final                  */
+/* ========================== */
+.cta-section {
+    background: linear-gradient(to right, var(--primary-700), var(--secondary-700)); /* Gradiente mais escuro */
+    color: var(--neutral-0);
+    padding: 5rem 0;
+    margin-top: 4rem;
+}
+.cta-section h2 { color: var(--neutral-0); margin-bottom: 1rem; font-size: 2rem; }
+.cta-section p { color: var(--primary-100); margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; font-size: 1.1rem; }
+.cta-section .highlight { background-color: rgba(255, 255, 255, 0.2); color: var(--warning-500); } /* Destaque no CTA */
+
+
+/* ========================== */
+/* Rodapé                     */
+/* ========================== */
+.site-footer {
+    background-color: var(--neutral-900);
+    color: var(--neutral-300);
+    padding-top: 4rem; /* Mais padding */
+    padding-bottom: 2rem;
+    margin-top: 0; /* Remover margem se CTA for sempre o último */
+}
+
+.footer-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 3rem; margin-bottom: 3rem; }
+.footer-about .logo { color: var(--neutral-0); margin-bottom: 1rem; display: block; }
+.footer-about p.small { color: var(--neutral-500); line-height: 1.6; }
+.footer-links h5, .footer-social h5 { color: var(--neutral-0); font-weight: 600; margin-bottom: 1rem; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-links ul { list-style: none; padding: 0; }
+.footer-links li { margin-bottom: 0.75rem; }
+.footer-links a { color: var(--neutral-300); text-decoration: none; font-weight: 400; transition: color 0.2s ease; }
+.footer-links a:hover, .footer-links a:focus { color: var(--primary-500); /* Link hover primário */ text-decoration: none; }
+.footer-social a { color: var(--neutral-300); margin-right: 1.25rem; display: inline-block; transition: color 0.2s ease, transform 0.2s ease; }
+.footer-social a:hover, .footer-social a:focus { color: var(--primary-500); transform: scale(1.1); }
+.footer-social .icon { stroke-width: 1.5; }
+.copyright { border-top: 1px solid var(--neutral-700); padding-top: 2rem; margin-top: 2rem; }
+.copyright p.small { color: var(--neutral-500); }
+
+
+/* ========================== */
+/* Estilos de Ícones (Feather) */
+/* ========================== */
+.icon {
+    stroke: currentColor; /* Herda a cor do elemento pai por padrão */
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    vertical-align: middle; /* Tenta alinhar melhor */
+    display: inline-block;
+    width: 1em; /* Tamanho padrão relativo ao font-size */
+    height: 1em;
+}
+
+/* Tamanhos específicos se 1em não for suficiente */
+.icon-sm { width: 1rem; height: 1rem; }
+.icon-md { width: 1.25rem; height: 1.25rem; }
+.icon-lg { width: 1.5rem; height: 1.5rem; }
+
+/* Cores utilitárias para ícones */
+.icon-primary { stroke: var(--primary-500); }
+.icon-secondary { stroke: var(--secondary-500); }
+.icon-success { stroke: var(--success-500); }
+.icon-warning { stroke: var(--warning-500); }
+.icon-error { stroke: var(--error-500); }
+.icon-info { stroke: var(--info-500); }
+.icon-light { stroke: var(--neutral-0); }
+.icon-dark { stroke: var(--neutral-900); }
+.icon-muted { stroke: var(--neutral-500); /* Cor suave */ }
+.text-success-500 .icon { stroke: var(--success-500); } /* Ícone herda cor do texto */
+
+
+/* ========================== */
+/* Animações ScrollReveal     */
+/* ========================== */
+/* Definir estado inicial para elementos que serão animados */
+.reveal-up, .reveal-fade, .reveal-card, .reveal-feature {
+    visibility: hidden; /* Esconder até que JS revele */
+}
+
+
+/* ========================== */
+/* Dark Mode Adjustments      */
+/* ========================== */
+/* Ajustes específicos para o dark mode que podem não ter sido cobertos pelas variáveis */
+html.dark-mode {
+    /* ... variáveis já definidas ... */
+}
+html.dark-mode .site-header {
+    background-color: rgba(var(--neutral-0-rgb), 0.85);
+}
+html.dark-mode .site-header.sticky {
+    background-color: rgba(var(--neutral-0-rgb), 0.95);
+     border-bottom-color: var(--neutral-100);
+}
+html.dark-mode .hero-section {
+     background: linear-gradient(135deg, var(--primary-100), var(--secondary-100)); /* Usa as cores redefinidas */
+}
+html.dark-mode .hero-section h1 { color: var(--neutral-900); }
+html.dark-mode .featured-courses { background-color: var(--neutral-0); }
+html.dark-mode .course-card {
+    border-color: var(--neutral-300);
+    background-color: var(--neutral-100);
+}
+html.dark-mode .rating .icon.half-filled::before { background: var(--neutral-100); }
+html.dark-mode .favorite-btn {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--neutral-300);
+}
+html.dark-mode .favorite-btn:hover { background-color: rgba(0, 0, 0, 0.7); }
+html.dark-mode .feature-icon-wrapper { background-color: var(--primary-700); }
+html.dark-mode .feature-item:hover .feature-icon-wrapper { background-color: var(--primary-500); }
+html.dark-mode .feature-item .icon { color: var(--primary-500); }
+html.dark-mode .feature-item:hover .icon { color: var(--neutral-0); }
+html.dark-mode .site-footer { background-color: #0f131a; } /* Ainda mais escuro no dark */
+html.dark-mode .main-nav { background-color: var(--neutral-0); }
+
+/* ========================== */
+/* Responsividade             */
+/* ========================== */
+@media (max-width: 992px) { /* Ajustar breakpoint */
+    .header-container { position: relative; }
+
+    .main-nav {
+        display: flex; /* Usar flex para centralizar itens */
+        flex-direction: column;
+        align-items: center; /* Centralizar links */
+        justify-content: center; /* Centralizar verticalmente */
+        gap: 2rem; /* Espaço maior entre links */
+        position: fixed; /* Menu cobre a tela */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh; /* Altura total */
+        background-color: var(--neutral-0); /* Fundo sólido */
+        padding: 6rem 1.5rem 2rem 1.5rem; /* Padding interno */
+        transform: translateX(100%); /* Começa fora da tela */
+        transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1); /* Transição suave */
+        z-index: 999; /* Abaixo do header/toggle */
+        overflow-y: auto; /* Scroll se necessário */
+    }
+
+    .main-nav.active {
+        transform: translateX(0); /* Entra na tela */
+    }
+
+    .main-nav ul {
+        flex-direction: column; /* Links em coluna */
+        text-align: center;
+        gap: 1.5rem; /* Espaçamento */
+        width: 100%; /* Ocupar largura */
+    }
+    .main-nav a { font-size: 1.5rem; /* Links maiores */ font-weight: 600; }
+    .main-nav a::after { display: none; /* Remover sublinhado no mobile */ }
+
+    /* Mover botões de autenticação para dentro do menu mobile (opcional) */
+    .main-nav .auth-buttons-mobile {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 2rem;
+        width: 80%;
+        max-width: 250px;
+    }
+     .main-nav .auth-buttons-mobile .btn {
+        width: 100%; /* Botões ocupam largura total */
+        text-align: center;
+    }
+
+    /* Esconder botões originais no header em mobile */
+    .header-actions .auth-buttons {
+        display: none;
+    }
+
+    .mobile-nav-toggle { display: flex; align-items: center; justify-content: center; }
+
+    .hero-section h1 { font-size: 2.5rem; }
+    .hero-section .lead { font-size: 1.1rem; }
+}
+
+@media (max-width: 768px) {
+    html { scroll-padding-top: 70px; /* Ajustar para header menor */ }
+    .site-header, .site-header.sticky { padding: 0.5rem 0; /* Header sempre menor */ }
+
+    .hero-section { padding: 4rem 0; }
+    .hero-section h1 { font-size: 2rem; }
+     .hero-section .lead { font-size: 1rem; }
+    .hero-section .btn { display: block; margin: 1rem auto; max-width: 300px; }
+    .hero-section .btn-lg { font-size: 1rem; padding: 0.75rem 1.5rem; /* Reduzir botão grande */ }
+
+    .course-grid { grid-template-columns: 1fr; /* Uma coluna */ }
+    .features-grid { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 2rem; }
+    .cta-section h2 { font-size: 1.75rem; }
+    .cta-section p { font-size: 1rem; }
+
+    .footer-container { grid-template-columns: 1fr; text-align: center; gap: 2rem; }
+    .footer-social { margin-top: 1rem; }
+    .footer-social a { margin: 0 0.75rem; }
+}
+
+@media (max-width: 480px) {
+     .hero-section h1 { font-size: 1.8rem; }
+     .hero-section .lead { font-size: 0.9rem; }
+     .container { padding: 0 1rem; } /* Menos padding lateral */
+     .header-actions { gap: 0.5rem; } /* Menos espaço header */
+     .dark-mode-toggle { padding: 0.4rem; }
+     .mobile-nav-toggle { width: 32px; height: 32px; }
+     .main-nav a { font-size: 1.3rem; }
+}
