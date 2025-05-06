@@ -54,13 +54,12 @@ A interface foi construída seguindo as diretrizes de um mini Design System, def
 
 1.  **Clone o repositório:**
     ```bash
-    git clone https://github.com/[SEU_USUARIO]/[SEU_REPOSITORIO].git
+    git clone https://github.com/matheusesdev/edu-mais.git
     ```
-    *(Substitua `[SEU_USUARIO]/[SEU_REPOSITORIO]` pelo seu usuário e nome do repositório)*
 
 2.  **Navegue até a pasta do projeto:**
     ```bash
-    cd [SEU_REPOSITORIO]
+    cd edu-mais
     ```
 
 3.  **Abra o arquivo `index.html`:**
