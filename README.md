@@ -6,9 +6,6 @@ Este repositório contém o código front-end para o EduMais, um conceito para u
 
 O objetivo foi criar uma página inicial (Homepage) atraente e funcional, demonstrando os elementos visuais definidos no Design System e adicionando interações modernas para melhorar a experiência do usuário.
 
-*(Recomendado: Adicione aqui um GIF ou screenshot principal da página em ação!)*
-![Screenshot da Homepage EduMais](link_para_sua_imagem_ou_gif.png)
-
 ## 🎨 Design System Aplicado
 
 A interface foi construída seguindo as diretrizes de um mini Design System, definindo:
