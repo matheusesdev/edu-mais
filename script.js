@@ -1,286 +1,274 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    // --- Seletores ---
+    // --- Seletores Globais ---
     const siteHeader = document.getElementById('siteHeader');
     const mobileNavToggle = document.getElementById('mobileNavToggle');
     const mainNav = document.getElementById('mainNav');
-    const favoriteButtons = document.querySelectorAll('.favorite-btn');
+    const siteOverlay = document.getElementById('siteOverlay');
     const darkModeToggle = document.getElementById('darkModeToggle');
-    const htmlElement = document.documentElement; // Seleciona o <html>
+    const htmlElement = document.documentElement;
+    const particlesContainer = document.getElementById('particles-js');
+    const favoriteButtons = document.querySelectorAll('.favorite-btn');
+    const heroHeadline = document.getElementById('heroHeadline');
+    const currentYearSpan = document.getElementById('currentYear');
 
-    // --- Feather Icons ---
-    feather.replace(); // Inicializa ícones
+    // --- Configurações ---
+    const STICKY_HEADER_OFFSET = 10;
+    const HERO_HEADLINE_TEXT = "Desenvolvimento Web Profissional.";
 
-    // --- Sticky Header ---
-    const headerHeight = siteHeader.offsetHeight; // Pega a altura inicial
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > headerHeight / 2) { // Ativa um pouco antes de sair da tela
-            siteHeader.classList.add('sticky');
+    // --- Inicializações ---
+    const initApp = () => {
+        if (typeof feather !== 'undefined') {
+            feather.replace();
         } else {
-            siteHeader.classList.remove('sticky');
+            console.warn('Feather Icons library not loaded.');
         }
-    });
+
+        setupStickyHeader();
+        setupMobileMenu();
+        setupDarkMode();
+        setupFavoriteButtons();
+        setupScrollReveal();
+        setupParticles();
+        setupTiltEffect();
+        animateHeroHeadline();
+        updateCurrentYear();
+    };
+
+    // --- Header Fixo ---
+    const setupStickyHeader = () => {
+        if (!siteHeader) return;
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > STICKY_HEADER_OFFSET) {
+                siteHeader.classList.add('is-sticky');
+            } else {
+                siteHeader.classList.remove('is-sticky');
+            }
+        }, { passive: true });
+    };
 
     // --- Menu Mobile ---
-    if (mobileNavToggle && mainNav) {
+    const setupMobileMenu = () => {
+        if (!mobileNavToggle || !mainNav || !siteOverlay) return;
+
+        const toggleMenu = (isActive) => {
+            mainNav.classList.toggle('active', isActive);
+            mobileNavToggle.classList.toggle('active', isActive);
+            siteOverlay.classList.toggle('active', isActive);
+            document.body.classList.toggle('no-scroll', isActive);
+            mobileNavToggle.setAttribute('aria-expanded', isActive);
+            mobileNavToggle.setAttribute('aria-label', isActive ? 'Fechar menu' : 'Abrir menu');
+        };
+
         mobileNavToggle.addEventListener('click', () => {
-            mainNav.classList.toggle('active');
-            mobileNavToggle.classList.toggle('active');
-            document.body.classList.toggle('no-scroll'); // Impede scroll do body
-            // Atualiza aria-expanded
-            const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
-            mobileNavToggle.setAttribute('aria-expanded', !isExpanded);
+            const isActive = mainNav.classList.contains('active');
+            toggleMenu(!isActive);
         });
 
-        // Fecha o menu ao clicar em um link dentro dele (opcional)
-        mainNav.querySelectorAll('a').forEach(link => {
+        siteOverlay.addEventListener('click', () => toggleMenu(false));
+
+        mainNav.querySelectorAll('.nav-link, .btn').forEach(link => {
             link.addEventListener('click', () => {
                 if (mainNav.classList.contains('active')) {
-                    mainNav.classList.remove('active');
-                    mobileNavToggle.classList.remove('active');
-                    document.body.classList.remove('no-scroll');
-                    mobileNavToggle.setAttribute('aria-expanded', 'false');
+                    setTimeout(() => toggleMenu(false), 100);
                 }
             });
         });
-    }
-
-    // --- Botões Favoritar ---
-    favoriteButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault(); // Previne qualquer ação padrão
-            button.classList.toggle('active');
-            const heartIcon = button.querySelector('i[data-feather="heart"]');
-            if (button.classList.contains('active')) {
-                button.setAttribute('aria-label', 'Remover dos Favoritos');
-                // Opcional: Re-renderizar ícone preenchido (melhor se o SVG permitir fill via CSS)
-                heartIcon.style.fill = 'var(--heart-color)'; // Aplica fill diretamente
-            } else {
-                button.setAttribute('aria-label', 'Adicionar aos Favoritos');
-                 heartIcon.style.fill = 'none'; // Remove fill
-            }
-             // Re-renderizar o ícone para garantir que o fill seja aplicado/removido
-             // feather.replace(); // Pode ser pesado, usar com cuidado ou focar no botão específico
-        });
-    });
+    };
 
     // --- Dark Mode ---
-    const sunIcon = 'sun';
-    const moonIcon = 'moon';
-
-    const updateDarkModeIcon = (isDarkMode) => {
-        const iconType = isDarkMode ? sunIcon : moonIcon;
-        darkModeToggle.innerHTML = ''; // Limpa o ícone atual
-        const newIcon = feather.icons[iconType].toSvg({
-            class: 'icon icon-sm',
-            'stroke-width': 2 // Garante a espessura
-        });
-        darkModeToggle.insertAdjacentHTML('beforeend', newIcon);
-    };
-
-    const applyTheme = (theme) => {
-        if (theme === 'dark') {
-            htmlElement.classList.add('dark-mode');
-            updateDarkModeIcon(true);
-        } else {
-            htmlElement.classList.remove('dark-mode');
-            updateDarkModeIcon(false);
-        }
-        // Define as variáveis RGB para o tema atual (necessário para rgba() no CSS)
-        const rootStyle = getComputedStyle(htmlElement);
-        const neutral0 = rootStyle.getPropertyValue('--neutral-0').trim();
-        const primary500 = rootStyle.getPropertyValue('--primary-500').trim();
-        // Adicione outras cores se necessário
-        // Função simples para tentar converter hex/rgb para valores RGB
-        const getRgbValues = (colorString) => {
-            if (colorString.startsWith('#')) { // HEX
-                const bigint = parseInt(colorString.slice(1), 16);
-                const r = (bigint >> 16) & 255;
-                const g = (bigint >> 8) & 255;
-                const b = bigint & 255;
-                return `${r}, ${g}, ${b}`;
-            } else if (colorString.startsWith('rgb')) { // RGB
-                return colorString.match(/\d+/g).join(', ');
+    const setupDarkMode = () => {
+        const applyTheme = (theme) => {
+            htmlElement.classList.toggle('dark-mode', theme === 'dark');
+            if (darkModeToggle) {
+                darkModeToggle.setAttribute('aria-pressed', theme === 'dark');
+                darkModeToggle.setAttribute('aria-label', theme === 'dark' ? 'Desativar modo escuro' : 'Ativar modo escuro');
             }
-            return '255, 255, 255'; // Default fallback (branco)
+            const rootStyle = getComputedStyle(htmlElement);
+            // Certifique-se de que todas as cores base usadas para gerar RGBs estejam aqui
+            const colorKeys = ['bg-color', 'bg-alt-color', 'accent-color', 'heart-color', 'text-color', 'text-muted-color', 'border-color'];
+            colorKeys.forEach(key => {
+                const colorValue = rootStyle.getPropertyValue(`--${key}`).trim();
+                if (colorValue) {
+                    htmlElement.style.setProperty(`--${key}-rgb`, getRgbValues(colorValue));
+                }
+            });
+        };
+        
+        const applyInitialTheme = () => {
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            let currentTheme = 'light';
+
+            if (savedTheme) {
+                currentTheme = savedTheme;
+            } else if (prefersDark) {
+                currentTheme = 'dark';
+            }
+            applyTheme(currentTheme);
+        };
+
+        if (darkModeToggle) {
+            darkModeToggle.addEventListener('click', () => {
+                const isDark = htmlElement.classList.contains('dark-mode');
+                const newTheme = isDark ? 'light' : 'dark';
+                localStorage.setItem('theme', newTheme);
+                applyTheme(newTheme);
+            });
         }
-        htmlElement.style.setProperty('--neutral-0-rgb', getRgbValues(neutral0));
-        // console.log(`--neutral-0-rgb set to: ${getRgbValues(neutral0)}`); // Debug
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (!localStorage.getItem('theme')) {
+                applyTheme(e.matches ? 'dark' : 'light');
+            }
+        });
+        
+        applyInitialTheme();
     };
 
-    // Verifica preferência do OS e localStorage
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
-    const savedTheme = localStorage.getItem('theme');
-    let currentTheme = 'light'; // Padrão
-
-    if (savedTheme) {
-        currentTheme = savedTheme;
-    } else if (prefersDarkScheme.matches) {
-        currentTheme = 'dark';
-    }
-
-    applyTheme(currentTheme);
-
-    // Listener para o botão de toggle
-    darkModeToggle.addEventListener('click', () => {
-        const isDark = htmlElement.classList.contains('dark-mode');
-        currentTheme = isDark ? 'light' : 'dark';
-        localStorage.setItem('theme', currentTheme);
-        applyTheme(currentTheme);
-    });
-
-    // Listener para mudança de preferência do OS (opcional)
-    prefersDarkScheme.addEventListener('change', (e) => {
-        // Só atualiza se não houver preferência salva pelo usuário
-        if (!localStorage.getItem('theme')) {
-            currentTheme = e.matches ? 'dark' : 'light';
-            applyTheme(currentTheme);
+    const getRgbValues = (colorString) => {
+        if (!colorString) return '255, 255, 255';
+        if (colorString.startsWith('#')) {
+            const bigint = parseInt(colorString.slice(1), 16);
+            return `${(bigint >> 16) & 255}, ${(bigint >> 8) & 255}, ${bigint & 255}`;
+        } else if (colorString.startsWith('rgb')) {
+            const match = colorString.match(/\d+/g);
+            return match ? match.join(', ') : '255, 255, 255';
         }
-    });
+        return '255, 255, 255';
+    };
 
+    // --- Botões Favoritar ---
+    const setupFavoriteButtons = () => {
+        favoriteButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                button.classList.toggle('active');
+                const isActive = button.classList.contains('active');
+                button.setAttribute('aria-pressed', isActive);
+                button.setAttribute('aria-label', isActive ? 'Remover dos Favoritos' : 'Adicionar aos Favoritos');
+            });
+        });
+    };
 
-    // --- Scroll Reveal Animações ---
-    // Certifique-se de que a biblioteca ScrollReveal está carregada
-    if (typeof ScrollReveal !== 'undefined') {
+    // --- Animação Hero Headline ---
+    const animateHeroHeadline = () => {
+        if (!heroHeadline) return;
+        heroHeadline.innerHTML = '';
+        HERO_HEADLINE_TEXT.split('').forEach((char, index) => {
+            const span = document.createElement('span');
+            span.textContent = char === ' ' ? '\u00A0' : char;
+            span.style.transitionDelay = `${index * 0.04}s`;
+            heroHeadline.appendChild(span);
+        });
+        void heroHeadline.offsetWidth;
+        Array.from(heroHeadline.children).forEach(span => span.classList.add('is-visible'));
+    };
+
+    // --- ScrollReveal ---
+    const setupScrollReveal = () => {
+        if (typeof ScrollReveal === 'undefined') {
+            console.warn('ScrollReveal library not loaded.');
+            document.querySelectorAll('[data-sr-id]').forEach(el => el.style.visibility = 'visible');
+            return;
+        }
         const sr = ScrollReveal({
-            origin: 'bottom', // Origem da animação
-            distance: '50px',  // Distância do deslocamento
-            duration: 800,     // Duração da animação
-            delay: 200,        // Delay padrão
-            opacity: 0,        // Começa transparente
-            scale: 0.9,        // Começa um pouco menor
-            easing: 'cubic-bezier(0.5, 0, 0, 1)', // Curva de animação suave
-            reset: false,      // Animação ocorre apenas uma vez
-            viewFactor: 0.2,   // % do elemento visível para disparar
-            mobile: true       // Habilitado em mobile
+            origin: 'bottom', distance: '30px', duration: 800, delay: 100,
+            opacity: 0, scale: 0.95, easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)',
+            reset: false, viewFactor: 0.15, mobile: true
         });
-
-        // Animações Específicas
-        sr.reveal('.reveal-up', { origin: 'bottom', scale: 1 }); // Slide de baixo sem escala
-        sr.reveal('.reveal-fade', { distance: '0px', scale: 1 }); // Apenas fade-in
-        sr.reveal('.reveal-card', { interval: 100, origin: 'left', scale: 0.95 }); // Cards entram da esquerda com intervalo
-        sr.reveal('.reveal-feature', { interval: 150, origin: 'bottom', scale: 0.9 }); // Features entram de baixo com intervalo maior
-
-        // Hero específico (pode ter delay menor ou ser diferente)
-        sr.reveal('.hero-section h1', { delay: 300, origin: 'top', distance: '30px', scale: 1 });
-        sr.reveal('.hero-section .lead', { delay: 400, origin: 'bottom', distance: '30px', scale: 1 });
-        sr.reveal('.hero-section .btn', { delay: 500, origin: 'bottom', distance: '30px', scale: 1, interval: 100 });
-
-    } else {
-        console.warn('ScrollReveal library not loaded.');
-        // Torna elementos visíveis se ScrollReveal falhar
-        document.querySelectorAll('.reveal-up, .reveal-fade, .reveal-card, .reveal-feature').forEach(el => {
-            el.style.visibility = 'visible';
-        });
-    }
+        sr.reveal('.hero-subheadline', { delay: HERO_HEADLINE_TEXT.length * 40 + 200 });
+        sr.reveal('.hero-cta', { delay: HERO_HEADLINE_TEXT.length * 40 + 350 });
+        sr.reveal('.section-title', { scale: 1, distance: '10px' });
+        sr.reveal('.course-card', { interval: 80, origin: 'bottom', distance: '20px' });
+        sr.reveal('.feature-item', { interval: 80, scale: 0.9, distance: '20px' });
+        sr.reveal('.cta-section > .container > *', { interval: 100, distance: '15px'});
+    };
 
     // --- Particles.js ---
-     if (typeof particlesJS !== 'undefined') {
-        particlesJS('particles-js', {
-          "particles": {
-            "number": {
-              "value": 60, // Menos partículas
-              "density": {
-                "enable": true,
-                "value_area": 800
-              }
-            },
-            "color": {
-              // Usa cores do tema! Adapta no dark mode
-              "value": getComputedStyle(document.documentElement).getPropertyValue('--primary-500').trim() || "#0052cc"
-            },
-            "shape": {
-              "type": "circle",
-              "stroke": {
-                "width": 0,
-                "color": "#000000"
-              },
-            },
-            "opacity": {
-              "value": 0.4, // Mais sutis
-              "random": true, // Opacidade aleatória
-              "anim": {
-                "enable": true,
-                "speed": 0.5, // Animação lenta
-                "opacity_min": 0.1,
-                "sync": false
-              }
-            },
-            "size": {
-              "value": 3,
-              "random": true,
-              "anim": {
-                "enable": false,
-              }
-            },
-            "line_linked": {
-              "enable": true,
-              "distance": 120, // Linhas mais curtas
-              // Adapta cor da linha ao tema
-              "color": getComputedStyle(document.documentElement).getPropertyValue('--neutral-500').trim() || "#cccccc",
-              "opacity": 0.3,
-              "width": 1
-            },
-            "move": {
-              "enable": true,
-              "speed": 2, // Movimento lento
-              "direction": "none",
-              "random": true, // Direção aleatória
-              "straight": false,
-              "out_mode": "out",
-              "bounce": false,
-            }
-          },
-          "interactivity": {
-            "detect_on": "canvas",
-            "events": {
-              "onhover": {
-                "enable": true,
-                "mode": "grab" // Efeito de "pegar" ao passar mouse
-              },
-              "onclick": {
-                "enable": true,
-                "mode": "push" // Empurra partículas ao clicar
-              },
-              "resize": true
-            },
-            "modes": {
-              "grab": {
-                "distance": 140,
-                "line_opacity": 0.5
-              },
-              "bubble": { /* Desabilitado */ },
-              "repulse": { /* Desabilitado */ },
-              "push": {
-                "particles_nb": 4
-              },
-              "remove": { /* Desabilitado */ }
-            }
-          },
-          "retina_detect": true
-        });
+    const setupParticles = () => {
+        if (!particlesContainer || typeof particlesJS === 'undefined') return;
+        
+        const getCurrentParticleColors = () => {
+            const particleColor = getComputedStyle(htmlElement).getPropertyValue('--text-color').trim();
+            const lineColor = getComputedStyle(htmlElement).getPropertyValue('--text-muted-color').trim(); 
+            
+            const defaultLightParticle = "#1F2937";
+            const defaultLightLine = "#6B7280";
+            const defaultDarkParticle = "#F3F4F6";
+            const defaultDarkLine = "#9CA3AF";
 
-        // --- Atualiza cores das partículas no dark mode ---
-        const observer = new MutationObserver(mutations => {
+            if (htmlElement.classList.contains('dark-mode')) {
+                return { 
+                    particleColor: particleColor || defaultDarkParticle, 
+                    lineColor: lineColor || defaultDarkLine
+                };
+            } else {
+                return { 
+                    particleColor: particleColor || defaultLightParticle, 
+                    lineColor: lineColor || defaultLightLine
+                };
+            }
+        };
+
+        const initOrRefreshParticles = () => {
+            const colors = getCurrentParticleColors();
+            const particleConfig = {
+                "particles": {
+                    "number": {"value": 80, "density": {"enable": true, "value_area": 800}},
+                    "color": {"value": colors.particleColor},
+                    "shape": {"type": "circle"},
+                    "opacity": {"value": 0.5, "random": true, "anim": {"enable": true, "speed": 0.6, "opacity_min": 0.2, "sync": false}},
+                    "size": {"value": 3.5, "random": true, "anim": {"enable": false}},
+                    "line_linked": {"enable": true, "distance": 150, "color": colors.lineColor, "opacity": 0.35, "width": 1},
+                    "move": {"enable": true, "speed": 1.5, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false}
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {"onhover": {"enable": true, "mode": "grab"}, "onclick": {"enable": true, "mode": "push"}},
+                    "modes": {"grab": {"distance": 160, "line_opacity": 0.45}, "push": {"particles_nb": 3}}
+                },
+                "retina_detect": true
+            };
+
+            if (window.pJSDom && window.pJSDom[0] && window.pJSDom[0].pJS) {
+                const pJS = window.pJSDom[0].pJS;
+                pJS.particles.color.value = colors.particleColor;
+                pJS.particles.line_linked.color = colors.lineColor;
+                pJS.fn.particlesRefresh();
+            } else {
+                particlesJS('particles-js', particleConfig);
+            }
+        };
+        initOrRefreshParticles();
+        const themeObserver = new MutationObserver(mutations => {
             mutations.forEach(mutation => {
-                if (mutation.attributeName === 'class') {
-                    const isDark = htmlElement.classList.contains('dark-mode');
-                    const pJS = window.pJSDom[0]?.pJS; // Acessa a instância particlesJS
-                    if (pJS) {
-                        const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-500').trim();
-                        const neutralColor = getComputedStyle(document.documentElement).getPropertyValue('--neutral-500').trim();
-                        pJS.particles.color.value = primaryColor;
-                        pJS.particles.line_linked.color = neutralColor;
-                        // Redesenha as partículas com as novas cores
-                        pJS.fn.particlesRefresh();
-                    }
+                if (mutation.attributeName === 'class') { 
+                   initOrRefreshParticles(); 
                 }
             });
         });
-        observer.observe(htmlElement, { attributes: true });
+        themeObserver.observe(htmlElement, { attributes: true });
+    };
 
-     } else {
-         console.warn('Particles.js library not loaded.');
-     }
+    // --- Vanilla Tilt ---
+    const setupTiltEffect = () => {
+        if (typeof VanillaTilt !== 'undefined') {
+            VanillaTilt.init(document.querySelectorAll(".course-card"), {
+                max: 6,
+                speed: 600,
+                glare: true,
+                "max-glare": 0.1
+            });
+        }
+    };
+    
+    // --- Ano Atual no Footer ---
+    const updateCurrentYear = () => {
+        if (currentYearSpan) {
+            currentYearSpan.textContent = new Date().getFullYear();
+        }
+    };
 
-}); // Fim do DOMContentLoaded
+    // --- Iniciar Aplicação ---
+    initApp();
+});

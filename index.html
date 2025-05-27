@@ -1,231 +1,235 @@
 <!DOCTYPE html>
-<!-- Adicionaremos a classe dark-mode aqui via JS -->
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduMais - Cursos de Programação Online Interativos</title>
-    <!-- Fontes -->
+    <title>EduMais Pro - Desenvolvimento Profissional</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <!-- CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <!-- Favicons (Exemplo) -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
 
-    <!-- ========================== -->
-    <!-- Cabeçalho / Navegação      --> <!-- Adicionado ID -->
-    <!-- ========================== -->
+    <div class="site-overlay" id="siteOverlay"></div>
+
     <header class="site-header" id="siteHeader">
         <div class="container header-container">
-            <a href="/" class="logo">EduMais ✨</a> <!-- Logo um pouco diferente -->
-            <!-- Navegação --> <!-- Adicionado ID -->
+            <a href="/" class="logo">EduMais<span class="logo-pro">Pro</span></a>
             <nav class="main-nav" id="mainNav">
                 <ul>
-                    <li><a href="#hero">Início</a></li> <!-- Link para Hero -->
-                    <li><a href="#courses">Cursos</a></li>
-                    <li><a href="#why-us">Por que EduMais?</a></li>
-                    <li><a href="#">Blog</a></li>
+                    <li><a href="#hero" class="nav-link">Início</a></li>
+                    <li><a href="#courses" class="nav-link">Cursos</a></li>
+                    <li><a href="#why-us" class="nav-link">Diferenciais</a></li>
+                    <li><a href="#" class="nav-link">Insights</a></li>
                 </ul>
-                <!-- Botão Dark Mode será inserido aqui via JS ou pode adicionar direto -->
-                <!--
-                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Alternar tema">
-                    <i data-feather="moon" class="icon icon-sm"></i>
-                    <i data-feather="sun" class="icon icon-sm"></i>
-                </button>
-                -->
+                <div class="auth-buttons-mobile">
+                    <a href="#" class="btn btn-outline-primary btn-sm">Login</a>
+                    <a href="#" class="btn btn-primary btn-sm">Cadastre-se</a>
+                </div>
             </nav>
-            <div class="header-actions"> <!-- Agrupar botões e toggle -->
-                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Alternar tema">
-                    <!-- Ícone será trocado via JS -->
-                    <i data-feather="moon" class="icon icon-sm"></i>
+            <div class="header-actions">
+                <button id="darkModeToggle" class="dark-mode-toggle" aria-label="Ativar modo escuro" aria-pressed="false">
+                    <span class="icon-wrapper">
+                        <i data-feather="moon" class="icon icon-sm icon-moon"></i>
+                        <i data-feather="sun" class="icon icon-sm icon-sun"></i>
+                    </span>
                 </button>
                 <div class="auth-buttons">
-                    <a href="#" class="btn btn-outline-primary btn-sm">Login</a> <!-- Tamanho Sm -->
-                    <a href="#" class="btn btn-primary btn-sm">Cadastre-se</a> <!-- Tamanho Sm -->
+                    <a href="#" class="btn btn-outline-primary btn-sm">Login</a>
+                    <a href="#" class="btn btn-primary btn-sm">Cadastre-se</a>
                 </div>
-                <!-- Botão Mobile --> <!-- Adicionado ID -->
                 <button class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Abrir menu" aria-expanded="false">
-                     <i data-feather="menu" class="icon icon-md menu-icon"></i> <!-- Classe adicionada -->
-                     <i data-feather="x" class="icon icon-md close-icon"></i> <!-- Ícone de fechar -->
+                     <span class="menu-icon-bar"></span>
+                     <span class="menu-icon-bar"></span>
+                     <span class="menu-icon-bar"></span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- ========================== -->
-    <!-- Seção Principal (Hero)     --> <!-- Adicionado ID e div para particles -->
-    <!-- ========================== -->
     <main>
         <section class="hero-section" id="hero">
-             <!-- Div para Particles.js -->
-             <div id="particles-js"></div>
-            <div class="container hero-content text-center"> <!-- Conteúdo em div separada -->
-                <h1 class="reveal-up">Aprenda Programação de Verdade.</h1> <!-- Adicionado classe p/ animação -->
-                <p class="lead reveal-up" data-sr-delay="100">Transforme linhas de código em soluções reais. Cursos práticos e direto ao ponto.</p> <!-- Adicionado classe e delay -->
-                <div class="reveal-up" data-sr-delay="200"> <!-- Animar botões juntos -->
-                    <a href="#courses" class="btn btn-primary btn-lg">Explorar Cursos <i data-feather="arrow-down-circle" class="icon icon-sm"></i></a>
-                    <a href="#" class="btn btn-secondary btn-lg">Comece Grátis <i data-feather="gift" class="icon icon-sm"></i></a>
+             <div id="particles-js" class="hero-particles"></div>
+            <div class="container hero-content text-center">
+                <h1 class="hero-headline" id="heroHeadline">
+                    <!-- Conteúdo será preenchido por JS -->
+                </h1>
+                <p class="lead hero-subheadline" data-sr-id="1" style="visibility: hidden;">
+                    Eleve suas habilidades de desenvolvimento com cursos práticos e focados no mercado.
+                </p>
+                <div class="hero-cta" data-sr-id="2" style="visibility: hidden;">
+                    <a href="#courses" class="btn btn-primary btn-lg">Explorar Cursos <i data-feather="arrow-right" class="icon icon-sm"></i></a>
+                    <a href="#" class="btn btn-transparent btn-lg">Sobre Nós <i data-feather="info" class="icon icon-sm"></i></a>
                 </div>
             </div>
         </section>
 
-        <!-- ========================== -->
-        <!-- Seção de Cursos          --> <!-- Adicionado classes p/ animação -->
-        <!-- ========================== -->
         <section id="courses" class="featured-courses">
             <div class="container">
-                <h2 class="reveal-fade">Cursos em Destaque</h2>
+                <h2 class="section-title reveal-fade">Nossos <span class="text-accent">Cursos</span></h2>
                 <div class="course-grid">
-                    <!-- Card de Curso 1 --> <!-- Adicionado classe reveal-card e botão favoritar -->
-                    <article class="course-card reveal-card">
-                         <div class="card-image placeholder-image">
-                            <!-- Imagem Real seria melhor -->
-                         </div>
+                    <!-- Card 1 -->
+                    <article class="course-card" data-tilt>
+                        <div class="card-image-wrapper">
+                            <div class="card-image placeholder-image" style="--placeholder-color: var(--accent-color-rgb);">
+                                <i data-feather="code" class="placeholder-icon"></i>
+                            </div>
+                            <span class="course-tag">JavaScript</span>
+                        </div>
                         <div class="card-content">
-                             <button class="favorite-btn" aria-label="Adicionar aos Favoritos">
+                             <button class="favorite-btn" aria-label="Adicionar aos Favoritos" aria-pressed="false">
                                 <i data-feather="heart" class="icon icon-sm"></i>
                             </button>
-                            <h4>Curso Completo de JavaScript Moderno</h4>
-                            <p class="instructor">Por João Silva <i data-feather="check-circle" class="icon icon-sm text-success-500"></i></p>
-                            <div class="rating">
-                                <!-- ... estrelas ... -->
-                                <i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm half-filled"></i>
-                                <span class="small">(1.250)</span>
+                            <h4>Masterclass em JavaScript Moderno</h4>
+                            <p class="instructor">com Valéria Neves</p>
+                            <div class="card-meta">
+                                <span class="meta-item"><i data-feather="star" class="icon-xtra-sm filled"></i> 4.9 (230)</span>
+                                <span class="meta-item"><i data-feather="clock" class="icon-xtra-sm"></i> 25h</span>
                             </div>
-                            <p class="price">R$ 99,90 <span class="old-price">R$ 199,90</span></p> <!-- Preço antigo -->
-                            <a href="#" class="btn btn-secondary btn-sm">Ver Detalhes</a>
+                            <p class="price">R$ 497 <span class="old-price">R$ 897</span></p>
+                            <a href="#" class="btn btn-secondary btn-block">Saiba Mais</a>
                         </div>
                     </article>
-
-                    <!-- Card de Curso 2 --> <!-- Adicionado classe reveal-card e botão favoritar -->
-                    <article class="course-card reveal-card" data-sr-delay="100">
-                         <div class="card-image placeholder-image" style="background-color: var(--secondary-100);"> <!-- Cor diferente -->
-                         </div>
+                     <!-- Card 2 -->
+                    <article class="course-card" data-tilt>
+                        <div class="card-image-wrapper">
+                            <div class="card-image placeholder-image" style="--placeholder-color: var(--secondary-accent-color-rgb);">
+                                <i data-feather="figma" class="placeholder-icon"></i>
+                            </div>
+                             <span class="course-tag">UI/UX</span>
+                        </div>
                         <div class="card-content">
-                            <button class="favorite-btn" aria-label="Adicionar aos Favoritos">
+                             <button class="favorite-btn" aria-label="Adicionar aos Favoritos" aria-pressed="false">
                                 <i data-feather="heart" class="icon icon-sm"></i>
                             </button>
-                            <h4>Python para Ciência de Dados</h4>
-                            <p class="instructor">Por Maria Oliveira <i data-feather="check-circle" class="icon icon-sm text-success-500"></i></p>
-                             <div class="rating">
-                                <!-- ... estrelas ... -->
-                               <i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm filled"></i>
-                               <span class="small">(980)</span>
+                            <h4>Design de Interfaces Profissional</h4>
+                            <p class="instructor">com Bruno Reis</p>
+                            <div class="card-meta">
+                                <span class="meta-item"><i data-feather="star" class="icon-xtra-sm filled"></i> 4.8 (180)</span>
+                                <span class="meta-item"><i data-feather="clock" class="icon-xtra-sm"></i> 32h</span>
                             </div>
-                            <p class="price">R$ 129,90</p>
-                            <a href="#" class="btn btn-secondary btn-sm">Ver Detalhes</a>
+                            <p class="price">R$ 549</p>
+                            <a href="#" class="btn btn-secondary btn-block">Saiba Mais</a>
                         </div>
                     </article>
-
-                     <!-- Card de Curso 3 --> <!-- Adicionado classe reveal-card e botão favoritar -->
-                     <article class="course-card reveal-card" data-sr-delay="200">
-                        <div class="card-image placeholder-image" style="background-color: var(--primary-100);"> <!-- Cor diferente -->
+                    <!-- Card 3 -->
+                    <article class="course-card" data-tilt>
+                        <div class="card-image-wrapper">
+                            <div class="card-image placeholder-image" style="--placeholder-color: var(--tertiary-accent-color-rgb);">
+                                 <i data-feather="database" class="placeholder-icon"></i>
+                            </div>
+                             <span class="course-tag">Backend</span>
                         </div>
                         <div class="card-content">
-                             <button class="favorite-btn" aria-label="Adicionar aos Favoritos">
+                             <button class="favorite-btn" aria-label="Adicionar aos Favoritos" aria-pressed="false">
                                 <i data-feather="heart" class="icon icon-sm"></i>
                             </button>
-                            <h4>Web Completo com React & Node</h4>
-                             <p class="instructor">Por Carlos Pereira</p>
-                             <div class="rating">
-                                <!-- ... estrelas ... -->
-                                <i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm filled"></i><i data-feather="star" class="icon icon-sm"></i>
-                                <span class="small">(765)</span>
+                            <h4>APIs Robustas com Node.js e NestJS</h4>
+                            <p class="instructor">com Helena Costa</p>
+                            <div class="card-meta">
+                                <span class="meta-item"><i data-feather="star" class="icon-xtra-sm filled"></i> 4.9 (310)</span>
+                                <span class="meta-item"><i data-feather="clock" class="icon-xtra-sm"></i> 40h</span>
                             </div>
-                             <p class="price">R$ 119,90</p>
-                             <a href="#" class="btn btn-secondary btn-sm">Ver Detalhes</a>
+                            <p class="price">R$ 697</p>
+                            <a href="#" class="btn btn-secondary btn-block">Saiba Mais</a>
                         </div>
                     </article>
                 </div>
-                 <div class="text-center reveal-fade" style="margin-top: 3rem;">
-                    <a href="#" class="btn btn-outline-primary btn-lg">Ver Catálogo Completo</a>
+                 <div class="text-center reveal-fade" style="margin-top: 4rem;">
+                    <a href="#" class="btn btn-outline-primary btn-lg">Ver todos os cursos</a>
                 </div>
             </div>
         </section>
 
-        <!-- ========================== -->
-        <!-- Seção "Por que EduMais?"   --> <!-- Adicionado classes p/ animação -->
-        <!-- ========================== -->
         <section id="why-us" class="why-us-section">
             <div class="container">
-                <h2 class="reveal-fade">Por que escolher a <span class="text-gradient">EduMais</span>?</h2> <!-- Gradient no nome -->
+                <h2 class="section-title reveal-fade">Nossos <span class="text-accent">Diferenciais</span></h2>
                 <div class="features-grid">
-                    <!-- Adicionado classe reveal-feature -->
                     <div class="feature-item reveal-feature">
-                        <div class="feature-icon-wrapper"><i data-feather="award" class="icon icon-lg icon-primary"></i></div>
-                        <h4>Instrutores Top</h4>
-                        <p class="small">Profissionais experientes do mercado tech.</p>
+                        <div class="feature-icon-wrapper"><i data-feather="award" class="icon icon-lg"></i></div>
+                        <h4>Qualidade Premium</h4>
+                        <p class="small">Instrutores renomados e conteúdo de ponta.</p>
                     </div>
                      <div class="feature-item reveal-feature" data-sr-delay="100">
-                         <div class="feature-icon-wrapper"><i data-feather="film" class="icon icon-lg icon-primary"></i></div>
-                        <h4>Conteúdo Atual</h4>
-                        <p class="small">Cursos sempre alinhados com as últimas trends.</p>
+                         <div class="feature-icon-wrapper"><i data-feather="trending-up" class="icon icon-lg"></i></div>
+                        <h4>Foco em Carreira</h4>
+                        <p class="small">Projetos práticos que impulsionam seu portfólio.</p>
                     </div>
                      <div class="feature-item reveal-feature" data-sr-delay="200">
-                         <div class="feature-icon-wrapper"><i data-feather="clock" class="icon icon-lg icon-primary"></i></div>
-                        <h4>Acesso Vitalício</h4>
-                        <p class="small">Aprenda no seu ritmo, sem pressa e para sempre.</p>
+                         <div class="feature-icon-wrapper"><i data-feather="users" class="icon icon-lg"></i></div>
+                        <h4>Comunidade Ativa</h4>
+                        <p class="small">Networking e suporte contínuo com colegas e mentores.</p>
                     </div>
                      <div class="feature-item reveal-feature" data-sr-delay="300">
-                         <div class="feature-icon-wrapper"><i data-feather="message-circle" class="icon icon-lg icon-primary"></i></div>
-                        <h4>Comunidade</h4>
-                        <p class="small">Networking, suporte e troca de experiências.</p>
+                         <div class="feature-icon-wrapper"><i data-feather="shield" class="icon icon-lg"></i></div>
+                        <h4>Certificação Reconhecida</h4>
+                        <p class="small">Valide suas habilidades e destaque-se no mercado.</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- ========================== -->
-        <!-- Seção de CTA Final         --> <!-- Adicionado classes p/ animação -->
-        <!-- ========================== -->
         <section class="cta-section">
-            <div class="container text-center reveal-fade">
-                <h2>Pronto para o <span class="highlight">Upgrade</span> na sua Carreira?</h2> <!-- Highlight -->
-                <p>Milhares de devs começaram aqui. Seja o próximo!</p>
-                <a href="#" class="btn btn-light btn-lg">Criar Conta Grátis <i data-feather="zap" class="icon icon-sm"></i></a> <!-- Botão claro -->
+            <div class="container text-center reveal-fade"> <!-- A classe text-center no container é importante -->
+                <h2>Pronto para o <span class="text-accent-bg">Próximo Nível</span>?</h2>
+                <p>Junte-se a milhares de desenvolvedores que transformaram suas carreiras com a EduMais Pro.</p>
+                <a href="#" class="btn btn-primary btn-xl">Comece sua Jornada <i data-feather="zap" class="icon icon-sm"></i></a>
             </div>
         </section>
     </main>
 
-    <!-- ========================== -->
-    <!-- Rodapé                     -->
-    <!-- ========================== -->
     <footer class="site-footer">
-       <!-- ... (conteúdo do footer como antes) ... -->
-        <div class="container footer-container">
-            <div class="footer-about">
-                <a href="/" class="logo">EduMais ✨</a>
-                <p class="small">Ensinando programação de forma prática e acessível.</p>
+        <div class="container footer-grid">
+            <div class="footer-column footer-about">
+                <a href="/" class="logo">EduMais<span class="logo-pro">Pro</span></a>
+                <p class="small">Capacitando desenvolvedores para o futuro da tecnologia.</p>
+                 <div class="footer-social">
+                     <a href="#" aria-label="LinkedIn"><i data-feather="linkedin" class="icon icon-sm"></i></a>
+                     <a href="#" aria-label="GitHub"><i data-feather="github" class="icon icon-sm"></i></a>
+                     <a href="#" aria-label="Twitter"><i data-feather="twitter" class="icon icon-sm"></i></a>
+                </div>
             </div>
-            <div class="footer-links">
-                <h5>Navegação</h5>
+            <div class="footer-column">
+                <h5>Plataforma</h5>
                 <ul>
-                    <li><a href="#courses">Cursos</a></li>
-                    <li><a href="#">Sobre Nós</a></li>
-                    <li><a href="#">Contato</a></li>
-                     <li><a href="#">Termos de Uso</a></li>
-                     <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Cursos</a></li>
+                    <li><a href="#">Trilhas de Aprendizagem</a></li>
+                    <li><a href="#">Para Empresas</a></li>
+                    <li><a href="#">Preços</a></li>
                 </ul>
             </div>
-            <div class="footer-social">
-                <h5>Siga-nos</h5>
-                 <a href="#" aria-label="Facebook"><i data-feather="facebook" class="icon icon-md"></i></a>
-                 <a href="#" aria-label="Instagram"><i data-feather="instagram" class="icon icon-md"></i></a>
-                 <a href="#" aria-label="LinkedIn"><i data-feather="linkedin" class="icon icon-md"></i></a>
-                 <a href="#" aria-label="Youtube"><i data-feather="youtube" class="icon icon-md"></i></a>
+            <div class="footer-column">
+                <h5>Recursos</h5>
+                <ul>
+                    <li><a href="#">Blog/Insights</a></li>
+                    <li><a href="#">Comunidade</a></li>
+                    <li><a href="#">Suporte</a></li>
+                    <li><a href="#">FAQ</a></li>
+                </ul>
+            </div>
+             <div class="footer-column">
+                <h5>Empresa</h5>
+                <ul>
+                    <li><a href="#">Sobre Nós</a></li>
+                    <li><a href="#">Carreiras</a></li>
+                    <li><a href="#">Contato</a></li>
+                    <li><a href="#">Termos</a></li>
+                    <li><a href="#">Privacidade</a></li>
+                </ul>
             </div>
         </div>
         <div class="container copyright text-center">
-             <p class="small">© 2024 EduMais. Todos os direitos reservados.</p>
+             <p class="small">© <span id="currentYear"></span> EduMais Pro. Todos os direitos reservados.</p>
         </div>
     </footer>
 
-    <!-- Scripts --> <!-- Feather Icons, Particles.js, ScrollReveal.js e nosso script customizado -->
     <script src="https://unpkg.com/feather-icons"></script>
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.2/vanilla-tilt.min.js"></script>
     <script src="script.js"></script>
 
 </body>
